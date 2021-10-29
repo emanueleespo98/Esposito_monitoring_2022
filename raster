@@ -1,0 +1,17 @@
+setwd("C:/monitoring_lab")
+library(raster)
+library(RStoolbox) 
+
+#importing the data & assigning an object 
+p224r63_2011<- brick("p224r63_2011_masked.grd")
+p224r63_1998<- brick("p224r63_1998_masked.grd")
+
+#objects cannot be numbers
+#there are seven bands b1 blue, b2 green, b3 red
+#standard palette colour can be modified
+
+cl <- colorRampPalette(c('black','grey','light grey'))(100) # 
+plot(p224r63_2011, col=cl)
+
+#we want to create a unique imagine on colours
+plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
