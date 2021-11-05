@@ -1,4 +1,5 @@
 setwd("C:/monitoring_lab")
+install.packages(c("raster","RStoolbox"))
 library(raster)
 library(RStoolbox) 
 
@@ -15,3 +16,44 @@ plot(p224r63_2011, col=cl)
 
 #we want to create a unique imagine on colours
 plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
+
+
+#--------------lesson 5/11
+#we are going to catch the data from the lab folder
+#brick function, used to create a raster brick (multy-layer)
+#landsat bricks have 7 layers (7 bande)
+
+l2011 <- brick("p224r63_2011_masked.grd")
+
+#we want to work just in some bands
+#B1 is blue band
+#B2 is green
+#b3 is red
+#b4 is nir
+#Bx_sre sre is spectral reflectance
+#we want to plot green band B2_sre, that is inside l2011
+#with the dollar we can link the dataset l2011 and the band 2
+plot (l2011 $ B2_sre)
+
+#colorRampPalette
+
+cl <- colorRampPalette(c("black", "grey", "light grey")) (100)
+
+plot(l2011$B2_sre, col = cl)
+#color with green
+clg <- colorRampPalette(c("dark green", "green", "light green")) (100)
+plot(l2011$B2_sre, col = clg)
+#plot B1
+clb <- colorRampPalette (c("dark blue","blue","light blue"))(100)
+plot(l2011 $ B1_sre, col = clb
+
+#we want to create a frame with multiple image
+#we use par function, you set how many rows and how many columns
+par(mfrow=c(1,2))
+plot(l2011$B1_sre, col=clb)
+plot(l2011$B2_sre, col=clg)
+
+#we try with columns
+par(mfrow=c(2,1))
+plot(l2011$B1_sre, col=clb)
+plot(l2011$B2_sre, col=clg)
