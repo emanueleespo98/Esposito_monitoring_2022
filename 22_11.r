@@ -52,6 +52,7 @@ plot(DVI1992, col = cl)
 
 #NDVI for 2006
 DVI2006 <- l2006$defor2_.1 - l2006$defor2_.2
+DVI2006
 cl <- colorRampPalette(c('darkblue','yellow','red','black'))(100) # specifying a color scheme
 plot(DVI2006, col=cl)
 
