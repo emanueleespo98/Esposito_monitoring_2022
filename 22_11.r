@@ -59,3 +59,26 @@ plot(DVI2006, col=cl)
 par(mfrow = c(2,1))
 plot(DVI1992, col = cl)
 plot(DVI2006, col=cl)
+
+#differencing two images of energy in two different times
+DVIdif <-  DVI1992 - DVI2006 
+cld <- colorRampPalette(c('blue','white','red'))(100)
+plot(DVIdif, col=cld)
+
+#final plot: original images, DVIs, final DVI difference
+par(mfrow = c(3,2))
+plotRGB(l1992, r=1, g=2, b=3, stretch="Lin")
+plotRGB(l2006, r=1, g=2, b=3, stretch="Lin")
+plot(DVI1992, col = cl)
+plot(DVI2006, col=cl)
+plot(DVIdif, col=cld)
+
+#pdf function saves all you are foing in a pdf
+pdf("energy.pdf")
+par(mfrow = c(3,2))
+plotRGB(l1992, r=1, g=2, b=3, stretch="Lin")
+plotRGB(l2006, r=1, g=2, b=3, stretch="Lin")
+plot(DVI1992, col = cl)
+plot(DVI2006, col=cl)
+plot(DVIdif, col=cld)
+dev.off()
