@@ -1,0 +1,12 @@
+#lapply function is used to apply a function over a list or a vector
+#using pattern, you create a list with all the files that contain that word, extention etc
+rlist <- list.files(pattern ="EN")
+
+list_rast <- lapply(rlist, raster)
+
+EN_stack <- stack(list_rast)
+
+cl <- colorRampPalette(c('red','orange','yellow'))(100)
+ENdif <- EN_stack$EN_0001 - EN_stack$EN_0013
+cldif <- colorRampPalette(c('blue','white','red'))(100) 
+plot(ENdif, col=cldif)
