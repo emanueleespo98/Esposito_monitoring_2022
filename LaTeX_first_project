@@ -1,0 +1,18 @@
+
+%comment in latex are made with percent
+% title is a function, function work with {}
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{First Project}
+\author{emanuele.espo98 }
+\date{January 2022}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+\end{document}
