@@ -1,6 +1,6 @@
-install.packages("sdm")
-install.packages("rgdal")
-install.packages("raster")
+#install.packages("sdm")
+#install.packages("rgdal")
+#install.packages("raster")
 
 library(sdm)
 library(rgdal)
@@ -46,3 +46,33 @@ points(presences, pch=19)
 
 plot(preds$vegetation, col=cl)
 points(presences, pch=19)
+
+#day 2 and day 3
+
+setwd("C:/monitoring_lab/")
+
+#setting the source
+source("R_code_source_sdm.r")
+#we should announce train and predictors 
+datasdm <- sdmData(train=species, predictors=preds)
+
+#model sdm(formula= , data = , methods ="")
+m1 <- sdm(Occurrence~temperature+elevation+precipitation+vegetation, data=datasdm, methods="glm")
+
+#make the raster output layer
+p1 <- predict(m1, newdata = preds)
+
+#final plotting with model and prediction al together
+plot(p1, col=cl)
+#add the points
+points(presences, pch= 19)
+
+#stack everything together
+s1 <- stack (preds, p1)
+plot (s1, col = cl)
+#rename model in the graph
+names(s1) <- c('elevation', 'precipitation', 'temperature', 'vegetation', 'distribution_model')
+
+plot (s1, col = cl)
+
+
