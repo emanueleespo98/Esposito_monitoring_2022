@@ -1,0 +1,11 @@
+#in every r project you first have to set thw working directory and load the packages you are going to need
+setwd("C:/monitoring_lab")
+library(raster)
+library(rgdal)
+library(sdm)
+
+lst<- list.files(pattern='bil', full.names = T)
+
+predictors <- stack(lst)
+cl <- colorRampPalette(c('blue','orange','red','yellow')) (100)
+plot(predictors, col = cl)
