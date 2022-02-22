@@ -8,4 +8,7 @@ lst<- list.files(pattern='bil', full.names = T)
 
 predictors <- stack(lst)
 cl <- colorRampPalette(c('blue','orange','red','yellow')) (100)
-plot(predictors, col = cl)
+maxtemp <- predictors$lig_30s_bio_5 > 229 & predictors$lig_30s_bio_5 < 384
+mintemp <- predictors$lig_30s_bio_6 > -193 & predictors$lig_30s_bio_6 < 62
+
+#plot(predictors, col = cl)
