@@ -1,8 +1,21 @@
 #in every r project you first have to set thw working directory and load the packages you are going to need
-setwd("C:/monitoring_lab")
+setwd("C:/monitoring_exam")
 library(raster)
 library(rgdal)
 library(sdm)
+
+#since library(gdata) isn't working i have to import the specie dataframe from the clipboard 
+#go to the xls file, select all, CTRL + C, then move to r and type this code
+specie_data <- read.table(file = "clipboard", 
+                      sep = "\t", header=TRUE)
+nSite <- specie_data$Site
+nLat <- specie_data$Latitude
+nLong <- specie_data$Longitude
+
+#ns <- c('Kabazi II', 'Krapina','Abri des Pecheurs', 'Payre', 'Grotte Vaufrey', 'Gouberville')
+#nlat<- c(44.83, 45.84, 46.17, 44.30, 44.32)
+#nlong<- c(34.08, 15.87, 15.86, 4.40, 4.56)
+#ndf <- data.frame(Site = , Latitude = , Longitude = )
 
 lst<- list.files(pattern='bil', full.names = T)
 
