@@ -9,15 +9,25 @@ library(sf)
 
 #since library(gdata) isn't working i have to import the specie dataframe from the clipboard 
 #go to the xls file, select all, CTRL + C, then move to r and type this code
-specie_data <- read.table(file = "clipboard", sep = "\t", header=TRUE)
+#specie_data <- read.table(file = "clipboard", sep = "\t", header=TRUE)
+#starting from second time you can use read.csv
+specie_data <- read.csv(file="specie_data.csv")
 nSite <- specie_data$Site
 nLat <- specie_data$Latitude
 nLong <- specie_data$Longitude
+#now I am saving the dataframe in a csv 
+#write.csv(specie_data, "C:/monitoring_exam/specie_data.csv")
 
-n_spatial <- coordinates(specie_data) ~nLat+nLong
-class(specie_data)
+#creation of the spatial dataframe
 
-st_write(specie_data, "neanderthal_shp.shp")
+neanderthal.xy= specie_data[c("Longitude","Latitude")]
+coordinates(neanderthal.xy) <- ~Longitude+Latitude
+
+#with st_as_sf function you are able to create a simple feature object starting froma  spatial point object
+neanderthal.sf <- st_as_sf(neanderthal.xy)
+#now you convert the spatial object into a shp
+st_write(neanderthal.sf, "C:/monitoring_exam/neanderthal_shp.shp")
+
 
 #ns <- c('Kabazi II', 'Krapina','Abri des Pecheurs', 'Payre', 'Grotte Vaufrey', 'Gouberville')
 #nlat<- c(44.83, 45.84, 46.17, 44.30, 44.32)
@@ -28,7 +38,8 @@ lst<- list.files(pattern='bil', full.names = T)
 
 predictors <- stack(lst)
 cl <- colorRampPalette(c('blue','orange','red','yellow')) (100)
-maxtemp <- predictors$lig_30s_bio_5 > 229 & predictors$lig_30s_bio_5 < 384
-mintemp <- predictors$lig_30s_bio_6 > -193 & predictors$lig_30s_bio_6 < 62
 
-#plot(predictors, col = cl)
+plot(predictors$lig_30s_bio_5, col = cl)
+
+#now we start with the sdm creation
+
