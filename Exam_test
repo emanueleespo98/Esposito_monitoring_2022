@@ -18,16 +18,18 @@ nLong <- specie_data$Longitude
 #now I am saving the dataframe in a csv 
 #write.csv(specie_data, "C:/monitoring_exam/specie_data.csv")
 
+#I am missing occurrences, so i must modify the dataframe before converting it into a shè
+
 #creation of the spatial dataframe
 
 neanderthal.xy= specie_data[c("Longitude","Latitude")]
 coordinates(neanderthal.xy) <- ~Longitude+Latitude
 
-#with st_as_sf function you are able to create a simple feature object starting froma  spatial point object
+#with st_as_sf function you are able to create a simple feature object starting from a spatial point object
 neanderthal.sf <- st_as_sf(neanderthal.xy)
 #now you convert the spatial object into a shp
 st_write(neanderthal.sf, "C:/monitoring_exam/neanderthal_shp.shp")
-
+######i have problems with occurences shapefile
 
 #ns <- c('Kabazi II', 'Krapina','Abri des Pecheurs', 'Payre', 'Grotte Vaufrey', 'Gouberville')
 #nlat<- c(44.83, 45.84, 46.17, 44.30, 44.32)
@@ -42,4 +44,5 @@ cl <- colorRampPalette(c('blue','orange','red','yellow')) (100)
 plot(predictors$lig_30s_bio_5, col = cl)
 
 #now we start with the sdm creation
-
+#in order to create a sdm you need presences shapefile and predictors. 
+species <- shapefile("neanderthal_shp.shp")
