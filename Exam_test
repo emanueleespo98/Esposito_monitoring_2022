@@ -30,19 +30,44 @@ neanderthal.sf <- st_as_sf(neanderthal.xy)
 #now you convert the spatial object into a shp
 st_write(neanderthal.sf, "C:/monitoring_exam/neanderthal_shp.shp")
 ######i have problems with occurences shapefile
+#i have modified the shp with qgis, adding the occurrence field
 
 #ns <- c('Kabazi II', 'Krapina','Abri des Pecheurs', 'Payre', 'Grotte Vaufrey', 'Gouberville')
 #nlat<- c(44.83, 45.84, 46.17, 44.30, 44.32)
 #nlong<- c(34.08, 15.87, 15.86, 4.40, 4.56)
 #ndf <- data.frame(Site = , Latitude = , Longitude = )
 
+#introduction is finished, let's start the real work
+#first of all let's load the predictors. the necessary files are in the wd, .bil
+
 lst<- list.files(pattern='bil', full.names = T)
 
 predictors <- stack(lst)
+#downloaded predictors are covering all the world. I'm interested only in Europe, so i crop the rasters according to the article.
+new.extent <- extent(-10, 70, 20, 70)
+preds.crop<- crop(x=predictors, y = new.extent)
+
+
 cl <- colorRampPalette(c('blue','orange','red','yellow')) (100)
 
-plot(predictors$lig_30s_bio_5, col = cl)
+#plot(predictors$lig_30s_bio_5, col = cl)
 
 #now we start with the sdm creation
 #in order to create a sdm you need presences shapefile and predictors. 
+
 species <- shapefile("neanderthal_shp.shp")
+
+datasdm <- sdmData(train=species, predictors=preds.crop)
+
+#model. I am going to use MaxEnt since i only have presences, not absences. 
+#m1 <- sdm(Occurrence~lig_30s_bio_5+lig_30s_bio_5+lig_30s_bio_12+lig_30s_bio_18, data=datasdm, methods="bioclim")
+#since this is not working, i will use maxent. to use maxent Java is needed, and also dismo package
+m2 <- maxent(preds.crop, species)
+#memory.limit()
+
+#map probability of the maxent model
+p1 <- predict(m2, preds.crop)
+
+stack_1<- stack(preds.crop, p1) 
+names(s1)<- c('Annual precipitation', 'Precipitation of warmest quarter', 'Maximum temperature of warmest month', 'Minimum temperature of coldest month', 'Probability')
+plot(stack_1, col = cl)
