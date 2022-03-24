@@ -48,7 +48,7 @@ new.extent <- extent(-10, 70, 20, 70)
 preds.crop<- crop(x=predictors, y = new.extent)
 
 
-cl <- colorRampPalette(c('blue','orange','red','yellow')) (100)
+cl <- colorRampPalette(c('light green', 'dark green', ' yellow')) (100)
 
 #plot(predictors$lig_30s_bio_5, col = cl)
 
