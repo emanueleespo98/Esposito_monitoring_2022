@@ -75,3 +75,11 @@ plot(stack_1, col = cl)
 ###this is the final plot, probability map and fossil sites used to create the model.
 plot(stack_1$Probability, col = cl)
 points(species, pch=19)
+
+#final operations
+pdf("Neanderthal_maxent.pdf")
+par(mfrow=c(3,2))
+plot(stack_1$Probability, col = cl)
+points(species, pch = 19)
+plot(preds.crop, col = cl)
+dev.off()
