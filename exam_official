@@ -68,6 +68,9 @@ m2 <- maxent(preds.crop, species)
 ###map probability of the maxent model
 p1 <- predict(m2, preds.crop)
 
+###i want to try to extract the raster and save it
+writeRaster(p1, "Neanderthal_maxent.grd")
+
 stack_1<- stack(preds.crop, p1) 
 names(stack_1)<- c('Annual precipitation', 'Precipitation of warmest quarter', 'Maximum temperature of warmest month', 'Minimum temperature of coldest month', 'Probability')
 plot(stack_1, col = cl)
